@@ -88,21 +88,24 @@ const ChatRoom: React.FC<Props> = ({ user, onLeave }) => {
     });
   };
 
-  useEffect(() => {
-    socket.emit("sendwpm", { name: user.name, wpm, room: user.room });
-    socket.on("brod", (data: BroadcastData) => {
-      handleBroadcast(data);
-    });
-
-    return () => {
-      socket.off("brod");
-    };
-  }, [timer]);
-
   const handleScreen = () => {
     socket.emit("change-screen-req", { name: user.name, room: user.room });
     setInRoom((prev) => !prev);
   };
+
+  if(!inRoom){
+    useEffect(() => {
+      socket.emit("sendwpm", { name: user.name, wpm, room: user.room });
+      socket.on("brod", (data: BroadcastData) => {
+        handleBroadcast(data);
+      });
+  
+      return () => {
+        socket.off("brod");
+      };
+    }, [timer]);
+  }
+  
 
   const sendMessage = () => {
     if (message.trim()) {
@@ -116,15 +119,18 @@ const ChatRoom: React.FC<Props> = ({ user, onLeave }) => {
     const { paragraph } = generateRandomParagraph();
     setParagraph(paragraph);
   }, []);
-
-  useEffect(() => {
-    if (startedTyping) {
-      const interval = setInterval(() => {
-        setTimer((prev) => prev - 1);
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [startedTyping]);
+  
+  if(!inRoom){
+    useEffect(() => {
+      if (startedTyping) {
+        const interval = setInterval(() => {
+          setTimer((prev) => prev - 1);
+        }, 1000);
+        return () => clearInterval(interval);
+      }
+    }, [startedTyping]);
+  }
+  
 
   const handleKeyPress = (e: KeyboardEvent) => {
     if (unsupportedKeys.includes(e.key)) return;
@@ -170,7 +176,7 @@ const ChatRoom: React.FC<Props> = ({ user, onLeave }) => {
     setCpm(Math.floor(correctLetters / elapsedTime));
     setAccuracy(Math.round(accuracy));
   };
-
+ if(!inRoom){
   useEffect(() => {
     calculatePerformance();
     if (timer <= 0) {
@@ -188,7 +194,8 @@ const ChatRoom: React.FC<Props> = ({ user, onLeave }) => {
       };
     }
   }, [state, timer]);
-
+ }
+ 
 
 
   return inRoom ? (
