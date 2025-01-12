@@ -1,21 +1,21 @@
 import React, { createContext, useMemo, useState } from "react";
 
 export const AppContext = createContext({
-    wpm: 0,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setWpm: (wpm: number) => {},
+    wpm :0,
+    setWpm: (wpm: number) => {console.log(wpm);},
     cpm: 0,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setCpm: (cpm: number) => {},
+    setCpm: (cpm: number) => {console.log(cpm);},
     accuracy: 0,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setAccuracy: (accuracy: number) => {},
+    setAccuracy: (accuracy: number) => {console.log(accuracy);},
     timer: 60,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setTimer: (timer: number | ((prevTimer: number) => number)) => {},
+    setTimer: (timer: number | ((prevTimer: number) => number)) => {console.log(timer);},
     username: "", // Default empty string
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setUsername: (username: string) => {}, // Default empty setter
+    setUsername: (username: string) => {console.log(username);}, // Default empty setter
 });
 
 interface AppProviderProps {
