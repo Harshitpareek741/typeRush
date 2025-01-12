@@ -6,7 +6,7 @@ import { io, Socket } from "socket.io-client";
 import { FaLocationArrow } from "react-icons/fa";
 import Stats from "../type-components/stats";
 
-const socket: Socket = io("http://localhost:8080/");
+const socket: Socket = io("https://type-rush-backend.onrender.com/");
 
 interface Props {
   user: { name: string; room: string };
