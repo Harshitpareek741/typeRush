@@ -93,8 +93,8 @@ const ChatRoom: React.FC<Props> = ({ user, onLeave }) => {
     setInRoom((prev) => !prev);
   };
 
-  if(!inRoom){
-    useEffect(() => {
+  useEffect(() => {
+      if(!inRoom){
       socket.emit("sendwpm", { name: user.name, wpm, room: user.room });
       socket.on("brod", (data: BroadcastData) => {
         handleBroadcast(data);
@@ -103,8 +103,8 @@ const ChatRoom: React.FC<Props> = ({ user, onLeave }) => {
       return () => {
         socket.off("brod");
       };
+    }
     }, [timer]);
-  }
   
 
   const sendMessage = () => {
@@ -120,16 +120,16 @@ const ChatRoom: React.FC<Props> = ({ user, onLeave }) => {
     setParagraph(paragraph);
   }, []);
   
-  if(!inRoom){
-    useEffect(() => {
+  useEffect(() => {
+      if(!inRoom){
       if (startedTyping) {
         const interval = setInterval(() => {
           setTimer((prev) => prev - 1);
         }, 1000);
         return () => clearInterval(interval);
       }
+    }
     }, [startedTyping]);
-  }
   
 
   const handleKeyPress = (e: KeyboardEvent) => {
@@ -176,8 +176,8 @@ const ChatRoom: React.FC<Props> = ({ user, onLeave }) => {
     setCpm(Math.floor(correctLetters / elapsedTime));
     setAccuracy(Math.round(accuracy));
   };
- if(!inRoom){
   useEffect(() => {
+    if(!inRoom){
     calculatePerformance();
     if (timer <= 0) {
       localStorage.removeItem("inRoom");
@@ -193,8 +193,9 @@ const ChatRoom: React.FC<Props> = ({ user, onLeave }) => {
         window.removeEventListener("keydown", handleKeyPress);
       };
     }
+  }
   }, [state, timer]);
- }
+ 
  
 
 
