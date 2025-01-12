@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 
 interface Props {
   onJoin: (name: string, room: string) => void;
@@ -16,9 +16,7 @@ const JoinCreateRoom: React.FC<Props> = ({ onJoin }) => {
     }
   };
 
-  // useEffect(()=>{
-  //   onJoin("harshit","pareek");
-  // })
+ 
   
  
   return (
